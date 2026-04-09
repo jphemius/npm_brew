@@ -1,0 +1,242 @@
+// !$*UTF8*$!
+{
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A10000000000000000000011 /* NpmBrewMenuBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000001 /* NpmBrewMenuBarApp.swift */; };
+		A10000000000000000000012 /* PackageUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000002 /* PackageUpdate.swift */; };
+		A10000000000000000000013 /* UpdateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000003 /* UpdateStore.swift */; };
+		A10000000000000000000014 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* Shell.swift */; };
+		A10000000000000000000015 /* LoginItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000005 /* LoginItemManager.swift */; };
+		A10000000000000000000016 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000008 /* AppLanguage.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A10000000000000000000001 /* NpmBrewMenuBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NpmBrewMenuBarApp.swift; sourceTree = "<group>"; };
+		A10000000000000000000002 /* PackageUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageUpdate.swift; sourceTree = "<group>"; };
+		A10000000000000000000003 /* UpdateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateStore.swift; sourceTree = "<group>"; };
+		A10000000000000000000004 /* Shell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
+		A10000000000000000000005 /* LoginItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginItemManager.swift; sourceTree = "<group>"; };
+		A10000000000000000000006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A10000000000000000000007 /* NpmBrewMenuBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NpmBrewMenuBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000000000000000000008 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A10000000000000000000021 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A10000000000000000000031 = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000032 /* NpmBrewMenuBar */,
+				A10000000000000000000033 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10000000000000000000032 /* NpmBrewMenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000001 /* NpmBrewMenuBarApp.swift */,
+				A10000000000000000000002 /* PackageUpdate.swift */,
+				A10000000000000000000003 /* UpdateStore.swift */,
+				A10000000000000000000004 /* Shell.swift */,
+				A10000000000000000000005 /* LoginItemManager.swift */,
+				A10000000000000000000008 /* AppLanguage.swift */,
+				A10000000000000000000006 /* Info.plist */,
+			);
+			path = NpmBrewMenuBar;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000033 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000007 /* NpmBrewMenuBar.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A10000000000000000000041 /* NpmBrewMenuBar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10000000000000000000051 /* Build configuration list for PBXNativeTarget "NpmBrewMenuBar" */;
+			buildPhases = (
+				A10000000000000000000020 /* Sources */,
+				A10000000000000000000021 /* Frameworks */,
+				A10000000000000000000022 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NpmBrewMenuBar;
+			productName = NpmBrewMenuBar;
+			productReference = A10000000000000000000007 /* NpmBrewMenuBar.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A10000000000000000000061 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					A10000000000000000000041 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+				};
+			};
+			buildConfigurationList = A10000000000000000000052 /* Build configuration list for PBXProject "NpmBrewMenuBar" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A10000000000000000000031;
+			productRefGroup = A10000000000000000000033 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10000000000000000000041 /* NpmBrewMenuBar */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10000000000000000000022 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A10000000000000000000020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A10000000000000000000011 /* NpmBrewMenuBarApp.swift in Sources */,
+				A10000000000000000000012 /* PackageUpdate.swift in Sources */,
+				A10000000000000000000013 /* UpdateStore.swift in Sources */,
+				A10000000000000000000014 /* Shell.swift in Sources */,
+				A10000000000000000000015 /* LoginItemManager.swift in Sources */,
+				A10000000000000000000016 /* AppLanguage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A10000000000000000000071 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NpmBrewMenuBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.vibecoding.NpmBrewMenuBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A10000000000000000000072 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = NpmBrewMenuBar/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = local.vibecoding.NpmBrewMenuBar;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		A10000000000000000000073 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A10000000000000000000074 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A10000000000000000000051 /* Build configuration list for PBXNativeTarget "NpmBrewMenuBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000071 /* Debug */,
+				A10000000000000000000072 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000052 /* Build configuration list for PBXProject "NpmBrewMenuBar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000073 /* Debug */,
+				A10000000000000000000074 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A10000000000000000000061 /* Project object */;
+}
