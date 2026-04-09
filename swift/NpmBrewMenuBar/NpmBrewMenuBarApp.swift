@@ -372,20 +372,6 @@ private struct UpdatesDashboardView: View {
                 .disabled(store.isRefreshing || store.isUpdating)
 
                 Button {
-                    appUpdateManager.checkForUpdates()
-                } label: {
-                    Label(languageManager.text("Verifier l'app", "Check app"), systemImage: "arrow.triangle.2.circlepath")
-                }
-                .disabled(appUpdateManager.isChecking)
-
-                Button {
-                    appUpdateManager.downloadAndInstallUpdate()
-                } label: {
-                    Label(languageManager.text("Download update", "Download update"), systemImage: "arrow.down.circle")
-                }
-                .disabled(!appUpdateManager.updateAvailable || appUpdateManager.isDownloading)
-
-                Button {
                     store.updateAll()
                 } label: {
                     Label(languageManager.text("Mettre tout a jour", "Update all"), systemImage: "square.and.arrow.down")
@@ -425,6 +411,24 @@ private struct UpdatesDashboardView: View {
                 .pickerStyle(.segmented)
                 .frame(width: 180)
                 .labelsHidden()
+
+                Spacer(minLength: 0)
+            }
+
+            HStack(spacing: 12) {
+                Button {
+                    appUpdateManager.checkForUpdates()
+                } label: {
+                    Label(languageManager.text("Verifier l'app", "Check app"), systemImage: "arrow.triangle.2.circlepath")
+                }
+                .disabled(appUpdateManager.isChecking)
+
+                Button {
+                    appUpdateManager.downloadAndInstallUpdate()
+                } label: {
+                    Label(languageManager.text("Download update", "Download update"), systemImage: "arrow.down.circle")
+                }
+                .disabled(!appUpdateManager.updateAvailable || appUpdateManager.isDownloading)
 
                 Spacer(minLength: 0)
             }
