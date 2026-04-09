@@ -240,6 +240,12 @@ private struct MenuBarContentView: View {
                 .foregroundStyle(.secondary)
             }
 
+            if let lastCheckedAt = appUpdateManager.lastCheckedAt {
+                Text(languageManager.text("Dernier check release", "Last release check") + ": \(lastCheckedAt.formatted(date: .numeric, time: .shortened))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             Text(appUpdateManager.updateAvailable
                 ? languageManager.text("Une mise a jour est disponible.", "An update is available.")
                 : languageManager.text("L'application est deja a jour.", "The app is already up to date.")
@@ -422,6 +428,21 @@ private struct UpdatesDashboardView: View {
 
                 Spacer(minLength: 0)
             }
+
+            HStack(spacing: 12) {
+                Text(languageManager.text("Check release", "Check release"))
+                    .font(.subheadline.weight(.medium))
+
+                Picker(languageManager.text("Check release", "Check release"), selection: $appUpdateManager.selectedCheckInterval) {
+                    ForEach(AppReleaseCheckInterval.allCases) { option in
+                        Text(option.label).tag(option)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .labelsHidden()
+
+                Spacer(minLength: 0)
+            }
         }
         .padding(20)
         .background(.thinMaterial)
@@ -470,6 +491,16 @@ private struct UpdatesDashboardView: View {
                 Text(languageManager.text(
                     "Aucune release GitHub detectee pour le moment.",
                     "No GitHub release detected yet."
+                ))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
+            if let lastCheckedAt = appUpdateManager.lastCheckedAt {
+                Text(languageManager.text(
+                    "Dernier check release \(lastCheckedAt.formatted(date: .abbreviated, time: .shortened)).",
+                    "Last release check \(lastCheckedAt.formatted(date: .abbreviated, time: .shortened))."
                 ))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)

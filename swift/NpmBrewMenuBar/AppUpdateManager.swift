@@ -2,6 +2,32 @@ import Foundation
 import AppKit
 import UserNotifications
 
+enum AppReleaseCheckInterval: Int, CaseIterable, Identifiable {
+    case fiveMinutes = 5
+    case fifteenMinutes = 15
+    case thirtyMinutes = 30
+    case sixtyMinutes = 60
+
+    var id: Int { rawValue }
+
+    var label: String {
+        switch self {
+        case .fiveMinutes:
+            return "5 min"
+        case .fifteenMinutes:
+            return "15 min"
+        case .thirtyMinutes:
+            return "30 min"
+        case .sixtyMinutes:
+            return "60 min"
+        }
+    }
+
+    var seconds: TimeInterval {
+        TimeInterval(rawValue * 60)
+    }
+}
+
 struct AppReleaseInfo: Sendable {
     let version: String
     let url: URL
@@ -12,15 +38,33 @@ struct AppReleaseInfo: Sendable {
 
 @MainActor
 final class AppUpdateManager: ObservableObject {
+    private enum DefaultsKey {
+        static let appReleaseCheckInterval = "appReleaseCheckInterval"
+    }
+
     @Published private(set) var latestRelease: AppReleaseInfo?
     @Published private(set) var isChecking = false
     @Published private(set) var isDownloading = false
     @Published private(set) var errorMessage: String?
     @Published private(set) var statusMessage: String?
+    @Published private(set) var lastCheckedAt: Date?
+    @Published var selectedCheckInterval: AppReleaseCheckInterval {
+        didSet {
+            UserDefaults.standard.set(selectedCheckInterval.rawValue, forKey: DefaultsKey.appReleaseCheckInterval)
+            startAutoCheckLoop()
+        }
+    }
 
     private let owner = "jphemius"
     private let repo = "npm_brew"
     private var didNotifyAvailableUpdate = false
+    private var autoCheckTask: Task<Void, Never>?
+
+    init() {
+        let storedValue = UserDefaults.standard.integer(forKey: DefaultsKey.appReleaseCheckInterval)
+        selectedCheckInterval = AppReleaseCheckInterval(rawValue: storedValue) ?? .fifteenMinutes
+        startAutoCheckLoop()
+    }
 
     var currentVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
@@ -42,6 +86,7 @@ final class AppUpdateManager: ObservableObject {
             do {
                 let release = try await fetchLatestRelease()
                 latestRelease = release
+                lastCheckedAt = Date()
                 if updateAvailable {
                     statusMessage = L.text(
                         "Nouvelle version \(release.version) detectee.",
@@ -53,6 +98,7 @@ final class AppUpdateManager: ObservableObject {
                     didNotifyAvailableUpdate = false
                 }
             } catch {
+                lastCheckedAt = Date()
                 errorMessage = error.localizedDescription
             }
         }
@@ -190,6 +236,24 @@ final class AppUpdateManager: ObservableObject {
             )
 
             try? await center.add(request)
+        }
+    }
+
+    private func startAutoCheckLoop() {
+        autoCheckTask?.cancel()
+        let interval = selectedCheckInterval.seconds
+
+        autoCheckTask = Task { [weak self] in
+            while !Task.isCancelled {
+                do {
+                    try await Task.sleep(for: .seconds(interval))
+                } catch {
+                    break
+                }
+
+                guard !Task.isCancelled else { break }
+                await self?.checkForUpdates()
+            }
         }
     }
 
