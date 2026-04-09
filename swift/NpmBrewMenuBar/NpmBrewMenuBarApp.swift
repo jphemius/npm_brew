@@ -240,12 +240,6 @@ private struct MenuBarContentView: View {
                 .foregroundStyle(.secondary)
             }
 
-            if let lastCheckedAt = appUpdateManager.lastCheckedAt {
-                Text(languageManager.text("Dernier check release", "Last release check") + ": \(lastCheckedAt.formatted(date: .numeric, time: .shortened))")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
             Text(appUpdateManager.updateAvailable
                 ? languageManager.text("Une mise a jour est disponible.", "An update is available.")
                 : languageManager.text("L'application est deja a jour.", "The app is already up to date.")
@@ -444,6 +438,16 @@ private struct UpdatesDashboardView: View {
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
+
+                if let lastCheckedAt = appUpdateManager.lastCheckedAt {
+                    Text(
+                        languageManager.text("Last", "Last") + ": " +
+                        lastCheckedAt.formatted(date: .omitted, time: .shortened)
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize()
+                }
 
                 Spacer(minLength: 0)
             }
