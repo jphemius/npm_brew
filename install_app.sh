@@ -45,4 +45,6 @@ rm -rf "$DEST_DIR/$SCHEME_NAME.app"
 cp -R "$APP_PATH" "$DEST_DIR/"
 
 log "Installation terminee: $DEST_DIR/$SCHEME_NAME.app"
-log "Ouvre l'application une fois, puis active 'Demarrage auto' dans l'interface."
+open "$DEST_DIR/$SCHEME_NAME.app"
+log "Application ouverte."
+log "Active 'Demarrage auto' dans l'interface si tu veux un lancement automatique."

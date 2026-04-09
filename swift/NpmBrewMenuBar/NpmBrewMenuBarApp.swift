@@ -319,10 +319,11 @@ private struct UpdatesDashboardView: View {
                         .padding(.vertical, 10)
                         .background(Color.secondary.opacity(0.08))
                 }
-                appUpdateSection
                 packageList
                 Divider()
                 logSection
+                Divider()
+                appUpdateSection
             }
             .navigationTitle(languageManager.text("Mises a jour", "Updates"))
         }
@@ -403,24 +404,23 @@ private struct UpdatesDashboardView: View {
                 }
                 .pickerStyle(.segmented)
                 .labelsHidden()
+                Spacer(minLength: 0)
+            }
+
+            HStack(spacing: 12) {
+                Text(languageManager.text("Langue", "Language"))
+                    .font(.subheadline.weight(.medium))
+
+                Picker(languageManager.text("Langue", "Language"), selection: $languageManager.currentLanguage) {
+                    ForEach(AppLanguage.allCases) { language in
+                        Text(language.displayName).tag(language)
+                    }
+                }
+                .pickerStyle(.segmented)
+                .frame(width: 180)
+                .labelsHidden()
 
                 Spacer(minLength: 0)
-
-                HStack(spacing: 8) {
-                    Text(languageManager.text("Langue", "Language"))
-                        .font(.caption.weight(.medium))
-                        .foregroundStyle(.secondary)
-                        .fixedSize()
-
-                    Picker(languageManager.text("Langue", "Language"), selection: $languageManager.currentLanguage) {
-                        ForEach(AppLanguage.allCases) { language in
-                            Text(language.shortLabel).tag(language)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .frame(width: 92)
-                }
-                .fixedSize()
             }
         }
         .padding(20)
