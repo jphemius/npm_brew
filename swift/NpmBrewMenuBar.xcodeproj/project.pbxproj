@@ -10,6 +10,7 @@
 		A10000000000000000000014 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* Shell.swift */; };
 		A10000000000000000000015 /* LoginItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000005 /* LoginItemManager.swift */; };
 		A10000000000000000000016 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000008 /* AppLanguage.swift */; };
+		A10000000000000000000017 /* AppUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000009 /* AppUpdateManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		A10000000000000000000006 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A10000000000000000000007 /* NpmBrewMenuBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NpmBrewMenuBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000008 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		A10000000000000000000009 /* AppUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUpdateManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 				A10000000000000000000004 /* Shell.swift */,
 				A10000000000000000000005 /* LoginItemManager.swift */,
 				A10000000000000000000008 /* AppLanguage.swift */,
+				A10000000000000000000009 /* AppUpdateManager.swift */,
 				A10000000000000000000006 /* Info.plist */,
 			);
 			path = NpmBrewMenuBar;
@@ -137,6 +140,7 @@
 				A10000000000000000000014 /* Shell.swift in Sources */,
 				A10000000000000000000015 /* LoginItemManager.swift in Sources */,
 				A10000000000000000000016 /* AppLanguage.swift in Sources */,
+				A10000000000000000000017 /* AppUpdateManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

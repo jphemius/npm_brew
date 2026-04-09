@@ -6,6 +6,7 @@ struct NpmBrewMenuBarApp: App {
     @StateObject private var store = UpdateStore()
     @StateObject private var loginItemManager = LoginItemManager()
     @StateObject private var languageManager = LanguageManager()
+    @StateObject private var appUpdateManager = AppUpdateManager()
 
     var body: some Scene {
         MenuBarExtra {
@@ -13,6 +14,7 @@ struct NpmBrewMenuBarApp: App {
                 .environmentObject(store)
                 .environmentObject(loginItemManager)
                 .environmentObject(languageManager)
+                .environmentObject(appUpdateManager)
                 .frame(width: 380, height: 520)
         } label: {
             Label(store.totalUpdates == 0 ? languageManager.text("A jour", "Up to date") : "\(store.totalUpdates)", systemImage: store.statusIcon)
@@ -24,6 +26,7 @@ struct NpmBrewMenuBarApp: App {
                 .environmentObject(store)
                 .environmentObject(loginItemManager)
                 .environmentObject(languageManager)
+                .environmentObject(appUpdateManager)
                 .frame(minWidth: 720, minHeight: 520)
         }
     }
@@ -33,6 +36,7 @@ private struct MenuBarContentView: View {
     @EnvironmentObject private var store: UpdateStore
     @EnvironmentObject private var loginItemManager: LoginItemManager
     @EnvironmentObject private var languageManager: LanguageManager
+    @EnvironmentObject private var appUpdateManager: AppUpdateManager
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismiss) private var dismiss
 
@@ -48,6 +52,13 @@ private struct MenuBarContentView: View {
                     refreshSection
                     Divider()
                     loginSection
+                    appUpdateBanner
+                    if let updateStatusMessage = appUpdateManager.statusMessage {
+                        Text(updateStatusMessage)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                     if let npmStatusMessage = store.npmStatusMessage {
                         Text(npmStatusMessage)
                             .font(.footnote)
@@ -81,6 +92,9 @@ private struct MenuBarContentView: View {
         .task {
             if store.lastRefresh == nil {
                 store.refresh()
+            }
+            if appUpdateManager.latestRelease == nil {
+                appUpdateManager.checkForUpdates()
             }
         }
     }
@@ -197,12 +211,85 @@ private struct MenuBarContentView: View {
             .pickerStyle(.segmented)
         }
     }
+
+    private var appUpdateBanner: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(languageManager.text("Mise a jour de l'app", "App update"))
+                .font(.headline)
+
+            Text(languageManager.text(
+                "Version actuelle \(appUpdateManager.currentVersion)",
+                "Current version \(appUpdateManager.currentVersion)"
+            ))
+            .font(.caption)
+            .foregroundStyle(.secondary)
+
+            if let latestRelease = appUpdateManager.latestRelease {
+                Text(languageManager.text(
+                    "Derniere release GitHub \(latestRelease.version).",
+                    "Latest GitHub release \(latestRelease.version)."
+                ))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            } else {
+                Text(languageManager.text(
+                    "Aucune release GitHub detectee pour le moment.",
+                    "No GitHub release detected yet."
+                ))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            }
+
+            Text(appUpdateManager.updateAvailable
+                ? languageManager.text("Une mise a jour est disponible.", "An update is available.")
+                : languageManager.text("L'application est deja a jour.", "The app is already up to date.")
+            )
+            .font(.caption)
+            .foregroundStyle(appUpdateManager.updateAvailable ? .orange : .secondary)
+
+            HStack(spacing: 8) {
+                Button {
+                    appUpdateManager.checkForUpdates()
+                } label: {
+                    Label(languageManager.text("Verifier l'app", "Check app"), systemImage: "arrow.triangle.2.circlepath")
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .disabled(appUpdateManager.isChecking)
+
+                Button {
+                    appUpdateManager.openLatestRelease()
+                } label: {
+                    Label(languageManager.text("Ouvrir la release", "Open release"), systemImage: "arrow.up.right.square")
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .disabled(appUpdateManager.latestRelease == nil)
+
+                Button {
+                    appUpdateManager.downloadAndInstallUpdate()
+                } label: {
+                    Label(
+                        languageManager.text("Telecharger la mise a jour", "Download update"),
+                        systemImage: "arrow.down.circle"
+                    )
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+                .disabled(!appUpdateManager.updateAvailable || appUpdateManager.isDownloading)
+            }
+        }
+        .padding(12)
+        .background((appUpdateManager.updateAvailable ? Color.orange : Color.secondary).opacity(0.10))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
 }
 
 private struct UpdatesDashboardView: View {
     @EnvironmentObject private var store: UpdateStore
     @EnvironmentObject private var loginItemManager: LoginItemManager
     @EnvironmentObject private var languageManager: LanguageManager
+    @EnvironmentObject private var appUpdateManager: AppUpdateManager
 
     var body: some View {
         NavigationStack {
@@ -224,6 +311,15 @@ private struct UpdatesDashboardView: View {
                         .padding(.vertical, 10)
                         .background(Color.secondary.opacity(0.08))
                 }
+                if let updateStatusMessage = appUpdateManager.statusMessage {
+                    Text(updateStatusMessage)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 10)
+                        .background(Color.secondary.opacity(0.08))
+                }
+                appUpdateSection
                 packageList
                 Divider()
                 logSection
@@ -234,6 +330,9 @@ private struct UpdatesDashboardView: View {
             NSApplication.shared.activate(ignoringOtherApps: true)
             if store.lastRefresh == nil {
                 store.refresh()
+            }
+            if appUpdateManager.latestRelease == nil {
+                appUpdateManager.checkForUpdates()
             }
         }
     }
@@ -266,6 +365,20 @@ private struct UpdatesDashboardView: View {
                 .disabled(store.isRefreshing || store.isUpdating)
 
                 Button {
+                    appUpdateManager.checkForUpdates()
+                } label: {
+                    Label(languageManager.text("Verifier l'app", "Check app"), systemImage: "arrow.triangle.2.circlepath")
+                }
+                .disabled(appUpdateManager.isChecking)
+
+                Button {
+                    appUpdateManager.downloadAndInstallUpdate()
+                } label: {
+                    Label(languageManager.text("Download update", "Download update"), systemImage: "arrow.down.circle")
+                }
+                .disabled(!appUpdateManager.updateAvailable || appUpdateManager.isDownloading)
+
+                Button {
                     store.updateAll()
                 } label: {
                     Label(languageManager.text("Mettre tout a jour", "Update all"), systemImage: "square.and.arrow.down")
@@ -291,17 +404,89 @@ private struct UpdatesDashboardView: View {
                 .pickerStyle(.segmented)
                 .labelsHidden()
 
-                Picker(languageManager.text("Langue", "Language"), selection: $languageManager.currentLanguage) {
-                    ForEach(AppLanguage.allCases) { language in
-                        Text(language.shortLabel).tag(language)
+                Spacer(minLength: 0)
+
+                HStack(spacing: 8) {
+                    Text(languageManager.text("Langue", "Language"))
+                        .font(.caption.weight(.medium))
+                        .foregroundStyle(.secondary)
+                        .fixedSize()
+
+                    Picker(languageManager.text("Langue", "Language"), selection: $languageManager.currentLanguage) {
+                        ForEach(AppLanguage.allCases) { language in
+                            Text(language.shortLabel).tag(language)
+                        }
                     }
+                    .pickerStyle(.segmented)
+                    .frame(width: 92)
                 }
-                .pickerStyle(.segmented)
-                .frame(width: 110)
+                .fixedSize()
             }
         }
         .padding(20)
         .background(.thinMaterial)
+    }
+
+    private var appUpdateSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(languageManager.text("Mise a jour de l'application", "App update"))
+                    .font(.headline)
+                Spacer()
+                Button {
+                    appUpdateManager.downloadAndInstallUpdate()
+                } label: {
+                    Label(languageManager.text("Download update", "Download update"), systemImage: "arrow.down.circle")
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(!appUpdateManager.updateAvailable || appUpdateManager.isDownloading)
+
+                Button {
+                    appUpdateManager.openLatestRelease()
+                } label: {
+                    Label(languageManager.text("Ouvrir", "Open"), systemImage: "arrow.up.right.square")
+                }
+                .buttonStyle(.bordered)
+                .disabled(appUpdateManager.latestRelease == nil)
+            }
+
+            Text(languageManager.text(
+                "Version actuelle \(appUpdateManager.currentVersion).",
+                "Current version \(appUpdateManager.currentVersion)."
+            ))
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            if let latestRelease = appUpdateManager.latestRelease {
+                Text(languageManager.text(
+                    "Derniere release GitHub \(latestRelease.version).",
+                    "Latest GitHub release \(latestRelease.version)."
+                ))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                Text(languageManager.text(
+                    "Aucune release GitHub detectee pour le moment.",
+                    "No GitHub release detected yet."
+                ))
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
+            Text(appUpdateManager.updateAvailable
+                ? languageManager.text("Une mise a jour est disponible via GitHub Releases.", "An update is available via GitHub Releases.")
+                : languageManager.text("L'application est deja a jour.", "The app is already up to date.")
+            )
+            .font(.subheadline)
+            .foregroundStyle(appUpdateManager.updateAvailable ? .orange : .secondary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .background((appUpdateManager.updateAvailable ? Color.orange : Color.secondary).opacity(0.08))
     }
 
     private var packageList: some View {

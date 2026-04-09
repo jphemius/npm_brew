@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+
+# Xcode user data
+*.xcuserstate
+xcuserdata/
+*.xccheckout
+*.moved-aside
+
+# Swift Package Manager
+.build/
+Package.resolved
+
+# Derived data and local build outputs
+DerivedData/
+dist/
+
+# Local temporary app builds used by scripts
+/tmp/NpmBrewMenuBarDerivedData/
+
+# Archives and export artifacts
+*.xcarchive
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Editor / shell noise
+*.swp
+*.swo
+*~
