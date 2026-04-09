@@ -101,7 +101,7 @@ private struct MenuBarContentView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("NPM Brew")
+            Text("Npm Brew")
                 .font(.title2.weight(.semibold))
             Text(store.statusText)
                 .font(.subheadline)
